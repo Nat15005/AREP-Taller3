@@ -40,7 +40,7 @@ Follow these steps to get the development environment running:
 Once the project is built, you can start the server with the following command:
 
 ```bash
-java -cp target/classes edu.escuelaing.arep.server.HttpServer
+java -cp target/classes edu.escuelaing.arep.Application
 ```
 
 The server will start and listen on port `35000`.
