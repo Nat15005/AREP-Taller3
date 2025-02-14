@@ -2,7 +2,6 @@
 
 This framework is a lightweight web server built in Java, inspired by Apache, that can serve HTML pages and PNG images. It also includes an Inversion of Control (IoC) framework that allows building web applications using Plain Old Java Objects (POJOs). The server supports handling multiple non-concurrent requests and automatically detects annotated components to expose web services.
 
-Getting Started
 
 As a demonstration of the server's functionality, a simple web application is included to handle books. It allows users to add, delete, and list books using REST services.
 
