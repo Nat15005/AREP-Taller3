@@ -1,4 +1,4 @@
-package edu.escuelaing.arep;
+package edu.escuelaing.arep.controller;
 
 import edu.escuelaing.arep.controller.Response;
 import org.junit.jupiter.api.*;

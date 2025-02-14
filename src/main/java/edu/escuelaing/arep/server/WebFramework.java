@@ -107,7 +107,11 @@ public class WebFramework {
         } else if ("POST".equalsIgnoreCase(method)) {
             handler = postRoutes.getOrDefault(resource, (r, s) -> "404 Not Found");
             responseBody = handler.apply(req, res);
-        } else {
+        }else if ("DELETE".equalsIgnoreCase(method)) {
+                handler = deleteRoutes.getOrDefault(resource, (r, s) -> "{\"error\": \"Ruta no encontrada.\"}");
+                responseBody = handler.apply(req, res);
+        }
+        else {
             responseBody = "405 Method Not Allowed";
         }
 

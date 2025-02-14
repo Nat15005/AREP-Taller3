@@ -38,7 +38,7 @@ public class BookController {
 
 
     @DeleteMapping("/deleteBook")
-    public String deleteBook(@RequestParam("title") String title) {
+    public String deleteBook(@RequestParam("bookTitle") String title) {
         if (title.isEmpty()) {
             return "{\"error\": \"El título no puede estar vacío.\"}";
         }
@@ -47,22 +47,4 @@ public class BookController {
         return removed ? "{\"message\": \"Libro eliminado: " + title + "\"}" : "{\"error\": \"Libro no encontrado\"}";
     }
 
-    private String readRequestBody(BufferedReader reader) throws IOException {
-        StringBuilder requestBody = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            requestBody.append(line);
-        }
-        return requestBody.toString().trim();
-    }
-
-    private String extractValue(String json, String key) {
-        String searchKey = "\"" + key + "\":\"";
-        int start = json.indexOf(searchKey);
-        if (start == -1) return "";
-
-        start += searchKey.length();
-        int end = json.indexOf("\"", start);
-        return (end != -1) ? json.substring(start, end).trim() : "";
-    }
 }

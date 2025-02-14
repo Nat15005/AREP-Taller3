@@ -42,22 +42,23 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.target.classList.contains("delete-btn")) {
             const bookName = event.target.parentElement.parentElement.querySelector(".book-title").textContent.trim();
 
-            fetch("/deleteBook", {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ title: bookName }) // Enviar el nombre del libro en JSON
-            })
-            .then(response => {
-                if (!response.ok) throw new Error("Error al eliminar el libro.");
-                return response.text();
-            })
-            .then(data => {
-                console.log("Respuesta del servidor:", data);
-                loadBooks(); // Recargar la lista después de eliminar
-            })
-            .catch(error => console.error("Error al eliminar el libro:", error));
-        }
-    }
+            const url = `/deleteBook?bookTitle=${encodeURIComponent(bookName)}`;
+
+                    fetch(url, {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" }
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error("Error al eliminar el libro.");
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log("Respuesta del servidor:", data);
+                        loadBooks(); // Recargar la lista después de eliminar
+                    })
+                    .catch(error => console.error("Error al eliminar el libro:", error));
+                }
+            }
 
     // Agregar evento de clic a la lista de libros para manejar eliminaciones
     bookList.addEventListener("click", deleteBook);
