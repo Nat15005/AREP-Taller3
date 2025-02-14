@@ -1,6 +1,8 @@
 # Web Framework Development for REST Services and Static File Management
 
-This framework allows developers to define REST services using lambda functions, manage query values from requests, and specify the location of static files. The goal is to provide a robust and scalable framework for building web applications with backend services and static file handling.
+This framework is a lightweight web server built in Java, inspired by Apache, that can serve HTML pages and PNG images. It also includes an Inversion of Control (IoC) framework that allows building web applications using Plain Old Java Objects (POJOs). The server supports handling multiple non-concurrent requests and automatically detects annotated components to expose web services.
+
+Getting Started
 
 As a demonstration of the server's functionality, a simple web application is included to handle books. It allows users to add, delete, and list books using REST services.
 
@@ -22,11 +24,11 @@ Follow these steps to get the development environment running:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Nat15005/AREP-Taller2-Microframeworks-WEB.git
+   git clone https://github.com/Nat15005/AREP-Taller3.git
    ```
 2. **Navigate to the project folder:**
    ```bash
-   cd AREP-Taller2-Microframeworks-WEB
+   cd AREP-Taller3
    ```
 3. **Build the project using Maven:**
    ```bash
@@ -63,22 +65,13 @@ To test the functionality of the new REST framework, try the following endpoints
 - GET request with query parameters:
   
 ```  
-http://localhost:35000/App/hello?name=Natalia
+http://localhost:35000/greeting?name=Natalia
 ```
 
 This will return: Hello Natalia
 
-![image](https://github.com/user-attachments/assets/1c2664e9-ae19-40e6-baf2-c772b0077842)
+![image](https://github.com/user-attachments/assets/c1872f0d-eb3f-46f6-b065-610f5c4ed404)
 
-
-- GET request with predefined response:
-  
-```  
-http://localhost:35000/App/pi
-```
-This will return the value of Pi: 3.141592653589793
-
-![image](https://github.com/user-attachments/assets/84b2226c-674c-4105-968f-376323dffbe9)
 
 ### Static File Location Specification
 
@@ -106,7 +99,8 @@ This will serve the pato.png image from the static folder.
 
 You can change where the framework looks for static files by configuring the staticfiles() method to point to a different folder. For example, if you have a test folder called prueba, you can update the configuration as follows:
 
-![image](https://github.com/user-attachments/assets/45e7297e-4c58-4ad4-abf2-b48dcd5f9912)
+![image](https://github.com/user-attachments/assets/317c4e7f-22b7-4a2e-bf71-44c17143f8d1)
+
 
 Once this change is made, the server will search for static files in the prueba directory. This means that any requests for static resources will now be handled by files located inside prueba. For example:
 
@@ -125,31 +119,12 @@ To run the unit tests, use the following command:
 ```bash
 mvn test
 ```
-![image](https://github.com/user-attachments/assets/cc10c5a0-3515-4140-9c7c-01e8b8f2c805)
+![image](https://github.com/user-attachments/assets/79a7696c-52bf-462c-8dd0-a8ade7466979)
+
 
 ### BookTest
 - testBookCreation: Verifies that a Book object is created correctly with the specified title and author.
 - testToString: Checks that the toString method of the Book class returns the expected JSON representation of the book.
-
-### FileHandlerTest
-
-- testServeExistingFile: Tests that an existing file is served correctly, returning a 200 OK response along with the file content.
-- testServeNonExistingFile: Verifies that a request for a non-existent file returns a 404 Not Found response.
-- testGetContentType: Confirms that the correct MIME type is returned for various file extensions.
-
-### HttpServerTest
-
-- testHelloEndpoint: Tests the /App/hello endpoint to ensure it responds with a 200 OK status and the correct greeting message.
-- testPiEndpoint: Verifies that the /App/pi endpoint returns a 200 OK status and the value of π.
-- testStaticFile: Checks that a static file (e.g., index.html) can be accessed and returns a 200 OK status.
-- testNonExistentRoute: Tests that a request to a non-existent route returns a 404 Not Found status.
-
-### RequestHandlerTest
-- testGetBooks: Simulates a GET request to /getBooks and verifies that the response contains the expected JSON format.
-- testPostAddBook: Tests a POST request to /addBook to ensure that a book is added correctly and the response confirms the addition.
-- testDeleteBook: Verifies that a DELETE request to /deleteBook successfully removes a book and returns the appropriate response.
-- testGetNonExistentRoute: Checks that a GET request to a non-existent route returns a 404 Not Found response.
-- testDeleteNonExistentBook: Tests that attempting to delete a non-existent book returns a "Book not found" message.
 
 ### RequestTest
 
@@ -163,34 +138,62 @@ mvn test
 - testSetContentTypeToNull: Checks that setting the content type to null behaves as expected.
 - testSetContentTypeToEmptyString: Verifies that setting the content type to an empty string updates the response accordingly.
 
+### BookControllerTest
+- testGetBooksInitiallyEmpty: Verifies that the initial book list is empty by checking the JSON response.
+- testAddBookSuccessfully: Ensures that adding a book returns a success message and that the book appears in the stored list.
+- testAddBookWithEmptyFields: Checks that trying to add a book with empty title and author returns an appropriate error message.
+- testDeleteBookSuccessfully: Confirms that deleting an existing book returns a success message.
+- testDeleteBookNotFound: Verifies that trying to delete a non-existent book returns an error message.
+
+### GreetingControllerTest
+- testGreetingWithName: Ensures that greeting a specific name (e.g., "Carlos") returns the expected greeting message.
+- testGreetingWithDefaultName: Verifies that greeting with the default name ("World") returns the correct greeting.
+
 ### WebFrameworkTest
+- testStaticFilesConfiguration: Ensures that the static file directory is correctly set.
+- testGetRouteRegistrationAndExecution: Checks that a GET route can be registered and executed correctly.
+- testPostRouteRegistrationAndExecution: Verifies that a POST route can be registered and executed as expected.
+- testDeleteRouteRegistrationAndExecution: Ensures that a DELETE route can be registered and executed properly.
+- testHandleRequestForRegisteredGetRoute: Confirms that the framework correctly handles requests to a registered GET route.
+- testHandleRequestForUnknownRoute: Ensures that requesting an unknown route returns a 404 error.
+- testHandleRequestForPostMethod: Checks that a registered POST route is handled correctly.
+- testHandleRequestForDeleteMethod: Verifies that a registered DELETE route is handled successfully.
+- testHandleRequestForUnsupportedMethod: Ensures that an unsupported HTTP method (e.g., PUT) returns a 405 error.
 
-- testStaticFilesConfiguration: Tests the configuration of the static files directory to ensure it can be set and retrieved correctly.
-- testGetRouteRegistration: Verifies that a GET route can be registered successfully.
-- testHandleGetRequest: Simulates a GET request to a registered route and checks that the response is correct.
-- testHandleStaticFileRequest: Tests that a request for a static file returns the expected response.
-- testHandleNonExistentRoute: Verifies that a request to a non-existent route returns a 404 Not Found response.
-
-### MockSocket
-This class is not directly tested but is used in other tests to simulate a network socket for handling HTTP requests without actual network communication.
 
 ### Project Structure
 
 ```
-AREP-Taller-1
+AREP-Taller-3
 ├───src
 │   ├───main
 │   │   ├───java
 │   │   │   └───edu
 │   │   │       └───escuelaing
 │   │   │           └───arep
-│   │   │                   Book.java
-│   │   │                   FileHandler.java
-│   │   │                   HttpServer.java
-│   │   │                   Request.java
-│   │   │                   RequestHandler.java
-│   │   │                   Response.java
-│   │   │                   WebFramework.java
+│   │   │               │   Application.java
+│   │   │               │
+│   │   │               ├───annotations
+│   │   │               │       DeleteMapping.java
+│   │   │               │       GetMapping.java
+│   │   │               │       PostMapping.java
+│   │   │               │       RequestParam.java
+│   │   │               │       RestController.java
+│   │   │               │
+│   │   │               ├───controller
+│   │   │               │       BookController.java
+│   │   │               │       GreetingController.java
+│   │   │               │       Request.java
+│   │   │               │       RequestHandler.java
+│   │   │               │       Response.java
+│   │   │               │
+│   │   │               ├───model
+│   │   │               │       Book.java
+│   │   │               │
+│   │   │               └───server
+│   │   │                       FileHandler.java
+│   │   │                       HttpServer.java
+│   │   │                       WebFramework.java
 │   │   │
 │   │   └───resources
 │   │       ├───prueba
@@ -202,6 +205,8 @@ AREP-Taller-1
 │   │               index.html
 │   │               index.js
 │   │               pato.png
+│   │
+
 ```
 
 #### 📚 Book:
